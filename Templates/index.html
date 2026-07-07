@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa Email Generator</title>
+    <style>
+        body {font-family: Arial, sans-serif;background-color: #f4f7f6; padding: 20px; text-align: center;}
+        .container {background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);}
+        h1 {color: #d9534f;}
+        .input-group {display: flex; gap: 10px; margin-bottom: 10px; justify-content: center;}
+        input {padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 40%;}
+        button {padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;}
+        .add-btn{background-color: #5cb85c; color: white; margin-bottom: 20px;}
+        .submit-btn{background-color: #d9534f; color: white; width: 100%; font-size: 1.1em;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Secret Santa Name Generator</h1>
+        <p>Enter the names of the participants!</p>
+
+        <form action="/start-santa" method="POST">
+            <div id="participant-list">
+                <div class="input-group">
+                    <input type="text" name="names[]" placeholder="Name" required>
+                    <input type="email" name="emails[]" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="names[]" placeholder="Name" required>
+                    <input type="email" name="emails[]" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="names[]" placeholder="Name" required>
+                    <input type="email" name="emails[]" placeholder="Email" required>
+                </div>
+            </div>
+
+            <button type="button" class="add-btn" onclick="addRow()">+ Add Person</button>
+            <button type="submit" class="submit-btn">Send Secret Santa Emails</button>
+        </form>
+    </div>
+    
+    <script>
+        function addRow(){
+            const list = document.getElementById('participant-list');
+            const newRow = document.createElement('div');
+            newRow.className ='input-group';
+            newRow.innerHTML = `
+                <input type="text" name="names[]" placeholder="Name" required>
+                <input type="email" name="emails[]" placeholder="Email" required>
+
+            `;
+            list.appendChild(newRow);
+
+        }
+    </script>
+</body>
+</html>
