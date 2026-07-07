@@ -11,22 +11,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
-resend.api_key = os.getenv("RESEND_API_KEY")
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
+
 
 def send_email(reciever, recipient):
-    
-    params = {
-        "from": "Secret Santa <onboarding@resend.dev>",  
-        "to": [reciever],
-        "subject": "Your Secret Santa Assignment",
-        "html": f"""
-        <h3>Hello! Your Secret Santa assignment is here!</h3>
-        <p>Your target assignment is: <strong>{recipient}</strong>!</p>
-        <p>Remember to spend $10-$20 on your gift, but don't stress about it being perfect!</p>
-        """
-    }
-    
-    resend.Emails.send(params)
+
+    msg = MIMEText(f"""
+    Hi! You are the Secret Santa for: {recipient}
+    Remember to spend $10-$20 on your gift, but don't stress about it being the perfect gift!
+    """
+    )
+    msg['Subject'] = 'Your Secret Santa Assigment'
+    msg['From'] = SENDER_EMAIL
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+        server.sendmail(SENDER_EMAIL, reciever,msg.as_string())
 
 @app.route('/')
 def home():
@@ -62,6 +63,7 @@ def start_santa():
         giver_email = participants[i][1]
         reciever_name = targets[i][0]
         send_email(giver_email, reciever_name)
+
     return '''
     <!DOCTYPE html>
     <html lang="en">
