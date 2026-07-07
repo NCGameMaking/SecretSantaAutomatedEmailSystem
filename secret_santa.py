@@ -15,15 +15,22 @@ SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 
 
-def send_email(reciever, recipient):
+def send_email(reciever, recipient, budget, party_date):
 
-    msg = MIMEText(f"""
-    Hi! You are the Secret Santa for: {recipient}
-    Remember to spend $10-$20 on your gift, but don't stress about it being the perfect gift!
+    email_body = (f"""
+    Hi!
+    You are the Secret Santa for: {recipient}
+    The budget for this event is: {budget}
+    The party is on: {party_date}
+
+    Make sure to pick something thoughtful and keep it a total secret! See you there!
     """
     )
+
+    msg=MIMEText(email_body)
     msg['Subject'] = 'Your Secret Santa Assigment'
     msg['From'] = SENDER_EMAIL
+    msg['To'] = reciever
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
@@ -38,6 +45,9 @@ def start_santa():
 
     if request.method == 'GET':
         return "Please submit the form from the home page!", 400
+
+    budget = request.form.get('budget', '20')
+    party_date = request.form.get('party_date', 'TBD')
 
     form_names = request.form.getlist('names[]')
     form_emails = request.form.getlist('emails[]')
@@ -62,7 +72,7 @@ def start_santa():
     for i in range(len(participants)):
         giver_email = participants[i][1]
         reciever_name = targets[i][0]
-        send_email(giver_email, reciever_name)
+        send_email(giver_email, reciever_name, budget, party_date)
 
     return '''
     <!DOCTYPE html>
@@ -71,17 +81,19 @@ def start_santa():
         <meta charset="UTF-8">
         <title>Success!</title>
         <style>
-            body {font-family: Arial, sans-serif; background-color: f4f7f6; padding 40px; text-align: center;}
-            .card { background:white; max-width: 500px; margin: 0 auto; padding: 40px; border-radius: 10px; box-shadow:0 4px 15px rgba(0,0,0,0.1);}
-            h1 {color: #5cb85c; margin_bottom: 20px;}
-            p {color:#555; font-size: 1.1em; line-height:1.6;}
-            .back-btn { display: inline-block; margin-top:25px; padding: 10px 20px; background-color: #d9534f; color:white; text-decoration:none; font-weight: bold; border_radius: 5px;}
+            body {font-family: "Segoe UI", sans-serif; background: #eef5fb; margin: 0; padding: 32px; color: #1e293b; display: flex; justify-content: center; align-items: center; min-height: 100vh;}
+            .card { background: white; width: min(100%, 520px); border-radius: 24px; padding: 36px 32px; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08); text-align: center; }
+            h1 { color: #2e7d32; margin: 0 0 18px; font-size: clamp(2rem, 2.5vw, 2.6rem); }
+            p { color: #475569; font-size: 1.05rem; line-height: 1.75; margin: 0; }
+            .back-btn { display: inline-flex; margin-top: 28px; padding: 14px 22px; background: #d9534f; color: white; text-decoration: none; border-radius: 999px; font-weight: 700; }
+            .back-btn:hover { opacity: 0.94; }
         </style>
     </head>
     <body>
         <div class="card">
-            <h1>Success!</h1>
-            <p>All Secret Santa pairings have been assorted and have been sent to participants's email safely.</p>
+            <h1>Pairings Sent!</h1>
+            <p>All Secret Santa matches were generated and emailed privately to each participant.</p>
+            <a class="back-btn" href="/">Back to the form</a>
         </div>
     </body>
     </html>

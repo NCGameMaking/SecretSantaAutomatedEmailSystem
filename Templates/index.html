@@ -4,87 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Santa Email Generator</title>
-    <style>
-        body {font-family: Arial, sans-serif;background-color: #f4f7f6; padding: 20px; text-align: center;}
-        .container {background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);}
-        h1 {color: #d9534f;}
-        .credentials-group { background: #fcf8e3; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #faebec}
-        .credentials-group input { width: 90%; margin-bottom: 10px; justify-content: center; align-items: center;}
-        .input-group {display: flex; gap: 10px; margin-bottom: 10px; justify-content: center;}
-        input {padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 40%;}
-        button {padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;}
-        .add-btn{background-color: #5cb85c; color: white; margin-bottom: 20px;}
-        .remove-btn { background-color: #d9534f;color: white; padding: 10px 15px;}
-        .submit-btn{background-color: #d9534f; color: white; width: 100%; font-size: 1.1em;}
-
-        #loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255,255,255,0.9);
-            z-index: 9999;
-            justify-content:center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #d9534f;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-
-        @keyframes spin { 
-            0% { transform: rotate(0deg);}
-            100% { transform: rotate(360deg);}
-        }
-
-        .loading-text {
-            font-size: 1.3rem;
-            color: #333;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="loading-overlay">
         <div class="spinner"></div>
         <div class="loading-text">Securing sleigh routes and sending emails...</div>
     </div>
-    <div class="container">
-        <h1>Secret Santa Name Generator</h1>
-        <form action="/start-santa" method="POST" onsubmit="showLoading()">
-            <p>Enter the names and emails of your participants</p>
-            <div id="participant-list">
-                <div class="input-group">
-                    <input type="text" name="names[]" placeholder="Name" required>
-                    <input type="email" name="emails[]" placeholder="Email" required>
-                    <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
-        
-                </div>
-                <div class="input-group">
-                    <input type="text" name="names[]" placeholder="Name" required>
-                    <input type="email" name="emails[]" placeholder="Email" required>
-                    <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
-                </div>
-                <div class="input-group">
-                    <input type="text" name="names[]" placeholder="Name" required>
-                    <input type="email" name="emails[]" placeholder="Email" required>
-                    <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
-                </div>
-            </div>
+    <main class="page">
+        <section class="hero">
+            <h1>Secret Santa Email Generator</h1>
+            <p>Enter your participant list, set the budget and party date, then send private gift assignments in one click.</p>
+        </section>
 
-            <button type="button" class="add-btn" onclick="addRow()">+ Add Person</button>
-            <button type="submit" class="submit-btn">Send Secret Santa Emails</button>
-        </form>
-    </div>
+        <section class="card">
+            <form action="/start-santa" method="POST" onsubmit="showLoading()">
+                <div class="section">
+                    <fieldset>
+                        <legend>Event details</legend>
+                        <div class="grid-2">
+                            <label>
+                                <span>Gift budget</span>
+                                <input type="number" name="budget" value="20" min="1" required>
+                            </label>
+                            <label>
+                                <span>Party date</span>
+                                <input type="date" name="party_date" required>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div>
+                        <p class="hint">Add each participant's name and email address. You need at least two people to start Secret Santa.</p>
+                        <div id="participant-list">
+                            <div class="input-group">
+                                <input type="text" name="names[]" placeholder="Name" required>
+                                <input type="email" name="emails[]" placeholder="Email" required>
+                                <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="names[]" placeholder="Name" required>
+                                <input type="email" name="emails[]" placeholder="Email" required>
+                                <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="names[]" placeholder="Name" required>
+                                <input type="email" name="emails[]" placeholder="Email" required>
+                                <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row">
+                        <button type="button" class="add-btn" onclick="addRow()">+ Add Person</button>
+                        <button type="submit" class="submit-btn">Send Secret Santa Emails</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
     
     <script>
         function addRow(){
