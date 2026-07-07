@@ -1,7 +1,8 @@
 import os
 import random
+import resend
 import smtplib
-import ssl
+from email.mime.text import MIMEText
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 
@@ -10,19 +11,22 @@ load_dotenv()
 
 app = Flask(__name__)
 
-def send_email(sender, reciever, recipient, dynamic_password):
-    body_msg = f'''\
-From: {sender}
-To:{reciever}
-Subject: Your Secret Santa Assignment
+resend.api_key = os.getenv("RESEND_API_KEY")
 
-Hello! Your secret santa is: {recipient}!
-Remember to spend $10-$20 on your gift, but don't stress about it being the perfect gift!
-'''
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
-        server.login(sender, dynamic_password)
-        server.sendmail(sender, reciever, body_msg.encode('utf-8'))
+def send_email(reciever, recipient):
+    
+    params = {
+        "from": "Secret Santa <onboarding@resend.dev>",  
+        "to": [reciever],
+        "subject": "Your Secret Santa Assignment",
+        "html": f"""
+        <h3>Hello! Your Secret Santa assignment is here!</h3>
+        <p>Your target assignment is: <strong>{recipient}</strong>!</p>
+        <p>Remember to spend $10-$20 on your gift, but don't stress about it being perfect!</p>
+        """
+    }
+    
+    resend.Emails.send(params)
 
 @app.route('/')
 def home():
@@ -31,8 +35,8 @@ def home():
 @app.route('/start-santa', methods=['GET', 'POST'])
 def start_santa():
 
-    sender_email = request.form.get('sender_email')
-    sender_password = request.form.get('sender_password')
+    if request.method == 'GET':
+        return "Please submit the form from the home page!", 400
 
     form_names = request.form.getlist('names[]')
     form_emails = request.form.getlist('emails[]')
@@ -57,7 +61,7 @@ def start_santa():
     for i in range(len(participants)):
         giver_email = participants[i][1]
         reciever_name = targets[i][0]
-        send_email(sender_email, giver_email, reciever_name, sender_password)
+        send_email(giver_email, reciever_name)
     return '''
     <!DOCTYPE html>
     <html lang="en">
