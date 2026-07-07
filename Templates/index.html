@@ -8,31 +8,42 @@
         body {font-family: Arial, sans-serif;background-color: #f4f7f6; padding: 20px; text-align: center;}
         .container {background: white; max-width: 600px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);}
         h1 {color: #d9534f;}
+        .credentials-group { background: #fcf8e3; padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #faebec}
+        .credentials-group input { width: 90%; margin-bottom: 10px; justify-content: center; align-items: center;}
         .input-group {display: flex; gap: 10px; margin-bottom: 10px; justify-content: center;}
         input {padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 40%;}
         button {padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;}
         .add-btn{background-color: #5cb85c; color: white; margin-bottom: 20px;}
+        .remove-btn { background-color: #d9534f;color: white; padding: 10px 15px;}
         .submit-btn{background-color: #d9534f; color: white; width: 100%; font-size: 1.1em;}
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Secret Santa Name Generator</h1>
-        <p>Enter the names of the participants!</p>
-
         <form action="/start-santa" method="POST">
+            <div class="credentials-group">
+                <h3>Organise Email Setup</h3>
+                <input type="email" name="sender_email" placeholder="Your Gmail Address" required>
+                <input type="password" name="sender_password" placeholder="Your 16-Character App Address" required>
+            </div>
+            <p>Enter the names and emails of your participants</p>
             <div id="participant-list">
                 <div class="input-group">
                     <input type="text" name="names[]" placeholder="Name" required>
                     <input type="email" name="emails[]" placeholder="Email" required>
+                    <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
+        
                 </div>
                 <div class="input-group">
                     <input type="text" name="names[]" placeholder="Name" required>
                     <input type="email" name="emails[]" placeholder="Email" required>
+                    <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
                 </div>
                 <div class="input-group">
                     <input type="text" name="names[]" placeholder="Name" required>
                     <input type="email" name="emails[]" placeholder="Email" required>
+                    <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
                 </div>
             </div>
 
@@ -49,10 +60,19 @@
             newRow.innerHTML = `
                 <input type="text" name="names[]" placeholder="Name" required>
                 <input type="email" name="emails[]" placeholder="Email" required>
-
+                <button type="button" class="remove-btn" onclick="removeRow(this)">X</button>
             `;
             list.appendChild(newRow);
+        }
 
+        function removeRow(button){
+            const list = document.getElementById('participant-list');
+
+            if (list.children.length>2) {
+                button.parentElement.remove();
+            } else {
+                alert("You need at least 2 participants for a Secret Santa!");
+            }
         }
     </script>
 </body>
