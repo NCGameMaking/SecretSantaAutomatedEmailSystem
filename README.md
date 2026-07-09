@@ -1,6 +1,6 @@
 # The Automated Secret Santa Email System
 
-
+![alt text](image.png) ![alt text](image-1.png)
 
 A web application built using **Python (Flask)** and **HTML5/CSS3** that automated the process of organising a Secret Santa.
 
@@ -35,7 +35,7 @@ Organizing a traditional Secret Santa for a group of friends, family, or coworke
 └── secret_santa.py        # Central Flask application and logic engine
 
 (Just got AI to make this file tree setup.)
-
+```
 ---
 
 ##3. Thoughtful Execution:
@@ -79,3 +79,5 @@ Sending server-side SMTP emails to multiple addresses over the internet takes a 
  * Implements environmental variable masking (`.env`) for private mail configurations.
  * A full-screen loading animation to show users that the script is loading/working in the backend even though the frontend is frozen
  * Sends styled holiday card layouts through a secure background SMTP connection to GMAILs servers.
+
+ ![alt text](image-2.png) ![alt text](image-3.png)
