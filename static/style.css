@@ -15,53 +15,53 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: 32px;
     background-image: radial-gradient(circle at top left, rgba(79, 169, 255, 0.16), transparent 24%),
     radial-gradient(circle at bottom right, rgba(245, 124, 0, 0.14), transparent 22%);
 }
 
 .page {
-    width: min(100%, 820px);
+    width: min(100%, 760px);
 }
 
 .hero {
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
 }
 
 .hero h1 {
     margin: 0;
-    font-size: clamp(2rem, 3vw, 3rem);
-    letter-spacing: -0.04em;
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    letter-spacing: -0.03em;
     color: #334e68;
 }
 
 .hero p {
-    margin: 14px auto 0;
-    max-width: 650px;
-    color: #627d98;
-    line-height: 1.7;
-    font-size: 1.03rem;
+    margin: 16px auto 0;
+    max-width: 620px;
+    color: #556a78;
+    line-height: 1.75;
+    font-size: 1rem;
 }
 
 .card {
     background: white;
     border: 1px solid rgba(32, 52, 76, 0.08);
-    border-radius: 28px;
-    box-shadow: 0 30px 90px rgba(15, 23, 42, 0.08);
-    padding: 34px;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07);
+    padding: 28px;
 }
 
 .section {
     display: grid;
-    gap: 22px;
+    gap: 24px;
 }
 
 fieldset {
     border: 1px solid rgba(217, 83, 79, 0.18);
-    border-radius: 18px;
+    border-radius: 14px;
     background: #fff7f6;
-    padding: 22px;
+    padding: 20px;
 }
 
 legend {
@@ -73,7 +73,7 @@ legend {
 .grid-2 {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
 }
 
 label {
@@ -103,23 +103,28 @@ input:focus {
 
 .input-group {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 14px;
     align-items: center;
+    margin-bottom: 24px;
 }
 
 .input-group input {
     width: 100%;
 }
 
+.input-group input:first-child {
+    width: 100%;
+}
+
 .input-group .remove-btn {
-    width: 118px;
+    width: 38px;
 }
 
 .hint {
-    margin: 0;
+    margin: 20px 0 0;
     color: #627d98;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 .button-row {
@@ -131,7 +136,7 @@ input:focus {
 .submit-btn,
 .remove-btn {
     border: none;
-    border-radius: 999px;
+    border-radius: 14px;
     cursor: pointer;
     font-weight: 700;
     transition: transform 0.2s ease, opacity 0.2s ease;
@@ -140,22 +145,38 @@ input:focus {
 .add-btn {
     background: #2e7d32;
     color: white;
-    padding: 14px 16px;
+    padding: 12px 16px;
     font-size: 1rem;
 }
 
 .submit-btn {
     background: linear-gradient(135deg, #d9534f 0%, #c62828 100%);
     color: white;
-    padding: 16px 18px;
+    padding: 14px 18px;
     font-size: 1rem;
 }
 
 .remove-btn {
-    background: #ef5350;
-    color: white;
-    padding: 0 16px;
-    min-height: 48px;
+    background: #f5f6f8;
+    color: #495057;
+    border: 1px solid #d8dee6;
+    width: 38px;
+    min-height: 38px;
+    padding: 0;
+    border-radius: 12px;
+    font-size: 0;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.remove-btn::before {
+    content: "\00d7";
+    font-size: 1.05rem;
+    color: #495057;
+    position: absolute;
 }
 
 .add-btn:hover,
@@ -165,7 +186,7 @@ input:focus {
     transform: translateY(-1px);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 740px) {
     .grid-2,
     .input-group {
         grid-template-columns: 1fr;

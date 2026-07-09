@@ -1,6 +1,5 @@
 import os
 import random
-import resend
 import smtplib
 from email.mime.text import MIMEText
 from flask import Flask, render_template, request
@@ -16,25 +15,118 @@ SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 
 
 def send_email(reciever, recipient, budget, party_date):
-
-    email_body = (f"""
-    Hi!
-    You are the Secret Santa for: {recipient}
-    The budget for this event is: {budget}
-    The party is on: {party_date}
-
-    Make sure to pick something thoughtful and keep it a total secret! See you there!
+    html_body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            .email-wrapper {{
+                background-color: #f4f7f6;
+                padding: 30px 15px;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            }}
+            .card {{
+                max-width: 500px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                border: 1px solid #eaeaea;
+            }}
+            .header {{
+                background-color: #d9534f;
+                padding: 30px;
+                text-align: center;
+            }}
+            .header h1 {{
+                color: #ffffff;
+                margin: 0;
+                font-size: 24px;
+                letter-spacing: 1px;
+            }}
+            .content {{
+                padding: 30px;
+                color: #333333;
+                line-height: 1.6;
+                text-align: center
+            }}
+            .assignment-box {{
+                background-color: #fcf8e3;
+                border: 1px dashed #fbeed5;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                margin: 20px 0;
+            }}
+            .target-name {{
+                font-size: 22px;
+                font-weight: bold;
+                color: #d9534f;
+                margin: 5px 0 0 0;
+            }}
+            .details-list {{
+                margin-top: 20px;
+                padding-left: 0;
+                list-style: none;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+            }}
+            .details-list li {{
+                margin-bottom: 8px;
+                font-size: 14px;
+                color: #666666;
+            }}
+            .footer {{
+                text-align: center;
+                padding: 20px;
+                font-size: 12px;
+                color: #999999;
+                background-color: #fafafa;
+                border-top: 1px solid #eeeeee;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="email-wrapper">
+            <div class="card">
+                <div class="header">
+                    <h1>Secret Santa Assignment 🎅</h1>
+                </div>
+                <div class="content">
+                    <p>Hello! The generator has completed the matchmaking draw, and your secret target assignment is ready below:</p>
+                    
+                    <div class="assignment-box">
+                        <span style="font-size: 14px; text-transform: uppercase; color: #8a6d3b; font-weight: bold; letter-spacing: 0.5px;"> 🎁 You are buying a gift for:</span>
+                        <p class="target-name"> {recipient}</p>
+                    </div>
+                    
+                    <p>Please make sure to keep this a complete secret until the party exchange so the surprise isn't ruined! 🤫</p>
+                    
+                    <ul class="details-list">
+                        <li><strong>💰 Spending Limit:</strong> ${budget} Maximum</li>
+                        <li><strong>📅 Event Date:</strong> {party_date}</li>
+                    </ul>
+                </div>
+                <div class="footer">
+                    Automated Holiday Delivery System - Please do not reply to this email.
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
     """
-    )
+    
 
-    msg=MIMEText(email_body)
-    msg['Subject'] = 'Your Secret Santa Assigment'
+    msg = MIMEText(html_body, 'html')
+    msg['Subject'] = 'Your Secret Santa Assignment 🎅'
     msg['From'] = SENDER_EMAIL
     msg['To'] = reciever
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
-        server.sendmail(SENDER_EMAIL, reciever,msg.as_string())
+        server.sendmail(SENDER_EMAIL, reciever, msg.as_string())
 
 @app.route('/')
 def home():
