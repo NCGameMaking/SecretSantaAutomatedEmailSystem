@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Quicksand:wght@500&display=swap');
+
 :root {
     color-scheme: light;
     font-family: "Inter", "Segoe UI", sans-serif;
@@ -11,7 +13,7 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
+    min-height: 100vh; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,6 +57,17 @@ body {
 .section {
     display: grid;
     gap: 24px;
+}
+
+h1 {
+    font-family: 'Mountains of Christmas', serif;
+    color: #D9A05B;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+p {
+    font-family: 'Quicksand', sans-serif;
 }
 
 fieldset {
@@ -135,10 +148,12 @@ input:focus {
 .add-btn,
 .submit-btn,
 .remove-btn {
+    background-color: #B43E34;
     border: none;
-    border-radius: 14px;
+    color: #FFFFFF;
+    border-radius: 30px;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: bold;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -182,7 +197,7 @@ input:focus {
 .add-btn:hover,
 .submit-btn:hover,
 .remove-btn:hover {
-    opacity: 0.94;
+    background-color: #963027;
     transform: translateY(-1px);
 }
 
