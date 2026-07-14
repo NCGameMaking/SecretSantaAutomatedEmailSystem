@@ -16,106 +16,44 @@ SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 
 def send_email(reciever, recipient, budget, party_date):
     html_body = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <style>
-            .email-wrapper {{
-                background-color: #f4f7f6;
-                padding: 30px 15px;
-                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            }}
-            .card {{
-                max-width: 500px;
-                margin: 0 auto;
-                background-color: #ffffff;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-                border: 1px solid #eaeaea;
-            }}
-            .header {{
-                background-color: #d9534f;
-                padding: 30px;
-                text-align: center;
-            }}
-            .header h1 {{
-                color: #ffffff;
-                margin: 0;
-                font-size: 24px;
-                letter-spacing: 1px;
-            }}
-            .content {{
-                padding: 30px;
-                color: #333333;
-                line-height: 1.6;
-                text-align: center
-            }}
-            .assignment-box {{
-                background-color: #fcf8e3;
-                border: 1px dashed #fbeed5;
-                border-radius: 8px;
-                padding: 20px;
-                text-align: center;
-                margin: 20px 0;
-            }}
-            .target-name {{
-                font-size: 22px;
-                font-weight: bold;
-                color: #d9534f;
-                margin: 5px 0 0 0;
-            }}
-            .details-list {{
-                margin-top: 20px;
-                padding-left: 0;
-                list-style: none;
-                border-top: 1px solid #eee;
-                padding-top: 15px;
-            }}
-            .details-list li {{
-                margin-bottom: 8px;
-                font-size: 14px;
-                color: #666666;
-            }}
-            .footer {{
-                text-align: center;
-                padding: 20px;
-                font-size: 12px;
-                color: #999999;
-                background-color: #fafafa;
-                border-top: 1px solid #eeeeee;
-            }}
-        </style>
-    </head>
-    <body>
-        <div class="email-wrapper">
-            <div class="card">
-                <div class="header">
-                    <h1>Secret Santa Assignment 🎅</h1>
-                </div>
-                <div class="content">
-                    <p>Hello! The generator has completed the matchmaking draw, and your secret target assignment is ready below:</p>
-                    
-                    <div class="assignment-box">
-                        <span style="font-size: 14px; text-transform: uppercase; color: #8a6d3b; font-weight: bold; letter-spacing: 0.5px;"> 🎁 You are buying a gift for:</span>
-                        <p class="target-name"> {recipient}</p>
-                    </div>
-                    
-                    <p>Please make sure to keep this a complete secret until the party exchange so the surprise isn't ruined! 🤫</p>
-                    
-                    <ul class="details-list">
-                        <li><strong>💰 Spending Limit:</strong> ${budget} Maximum</li>
-                        <li><strong>📅 Event Date:</strong> {party_date}</li>
-                    </ul>
-                </div>
-                <div class="footer">
-                    Automated Holiday Delivery System - Please do not reply to this email.
-                </div>
-            </div>
-        </div>
-    </body>
-    </html>
+<html>
+<body style="font-family: 'Courier New', Courier, monospace; background-color: #f0f0f0; padding: 20px; color: #000000;">
+    <div style="background-color: #ffffff; border: 3px solid #000000; padding: 20px; max-width: 500px; margin: 0 auto;">
+        
+        <h1 style="text-align: center; color: #ff0000; text-decoration: underline; margin-bottom: 5px;">
+            !!! SECRET SANTA ASSIGNMENT !!!
+        </h1>
+        <p style="text-align: center; font-style: italic; margin-top: 0;">
+            (Keep this a secret or the surprise is ruined!)
+        </p>
+        
+        <hr style="border: 1px solid #000000;">
+        
+        <p style="font-size: 18px; text-align: center; margin: 25px 0;">
+            YOU ARE BUYING A GIFT FOR:
+            <br><br>
+            <span style="font-size: 24px; background-color: #ffff00; padding: 5px; border: 1px dashed black;">
+                <b><u>{recipient}</u></b>
+            </span>
+        </p>
+        
+        <hr style="border: 1px solid #000000;">
+        
+        <h3 style="margin-bottom: 5px;">Event Details:</h3>
+        <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%; background-color: #fafafa;">
+            <tr>
+                <td><b>Spending Limit</b></td>
+                <td>${budget} Maximum</td>
+            </tr>
+            <tr>
+                <td><b>Party Date</b></td>
+                <td>{party_date}</td>
+            </tr>
+        </table>
+    
+    </div>
+</body>
+</html>
     """
     
 
@@ -168,24 +106,20 @@ def start_santa():
 
     return '''
     <!DOCTYPE html>
-    <html lang="en">
+    <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Success!</title>
-        <style>
-            body {font-family: "Segoe UI", sans-serif; background: #eef5fb; margin: 0; padding: 32px; color: #1e293b; display: flex; justify-content: center; align-items: center; min-height: 100vh;}
-            .card { background: white; width: min(100%, 520px); border-radius: 24px; padding: 36px 32px; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08); text-align: center; }
-            h1 { color: #2e7d32; margin: 0 0 18px; font-size: clamp(2rem, 2.5vw, 2.6rem); }
-            p { color: #475569; font-size: 1.05rem; line-height: 1.75; margin: 0; }
-            .back-btn { display: inline-flex; margin-top: 28px; padding: 14px 22px; background: #d9534f; color: white; text-decoration: none; border-radius: 999px; font-weight: 700; }
-            .back-btn:hover { opacity: 0.94; }
-        </style>
+        <title>Secret Santa</title>
     </head>
-    <body>
-        <div class="card">
-            <h1>Pairings Sent!</h1>
-            <p>All Secret Santa matches were generated and emailed privately to each participant.</p>
-            <a class="back-btn" href="/">Back to the form</a>
+    <body style="font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333333; padding: 50px; text-align: center;">
+        <div style="background-color: #ffffff; border: 2px solid #333333; border-radius: 8px; padding: 40px; max-width: 500px; margin: 0 auto;">
+            <h1 style="color: #2e7d32; margin-top: 0;">Success!</h1>
+            <p style="font-size: 16px; line-height: 1.5; margin-bottom: 30px;">
+                All of your Secret Santa pairings have been successfully generated and sent to the participants' email addresses.
+            </p>
+
+            <a href="/" style="display: inline-block; background-color: #333333; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px;">
+                Back to Form
+            </a>
         </div>
     </body>
     </html>
